@@ -34,5 +34,5 @@ urlpatterns = [
     #url(r'^', views.DataDetailView.as_view(), name='a'),
     #path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
     
-    #url(r'^api/signal/', include(SURL)),
+    url(r'^api/signal/', include(SURL)),
 ]

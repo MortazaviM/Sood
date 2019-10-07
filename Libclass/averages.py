@@ -12,14 +12,12 @@ class Moving_Averages():
         
         for j in self.data:
             mylist.append(j)
-        
-        
-        cumsum, moving_aves = [0], []
 
+        cumsum, moving_aves = [0], []
         for i, x in enumerate(mylist, 1):
             cumsum.append(cumsum[i-1] + x)
-            if i>=N:
-                moving_ave = (cumsum[i] - cumsum[i-N])/N
+            if i>=self.n:
+                moving_ave = (cumsum[i] - cumsum[i-self.n])/self.n
                 #can do stuff with moving_ave here
                 moving_aves.append(moving_ave)
             
