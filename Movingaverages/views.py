@@ -26,12 +26,12 @@ from Libclass.averages import Moving_Averages
 class MovingAveragesView(APIView):
     def post(self, request, pk):
         mydata=data.objects.values_list('CLOSE').filter(TICKER=pk)
-        ma55=Moving_Averages(mydata,55)
-        ma50=Moving_Averages(mydata,50)
-        ma21=Moving_Averages(mydata,21)
-        ma20=Moving_Averages(mydata,20)
-        ma10=Moving_Averages(mydata,10)
-        ma8=Moving_Averages(mydata,8)
+        ma55=Moving_Averages(mydata,55).moving_average()
+        ma50=Moving_Averages(mydata,50).moving_average()
+        ma21=Moving_Averages(mydata,21).moving_average()
+        ma20=Moving_Averages(mydata,20).moving_average()
+        ma10=Moving_Averages(mydata,10).moving_average()
+        ma8=Moving_Averages(mydata,8).moving_average()
         output={
             'MA55':ma55,
             'MA50':ma50,
@@ -40,19 +40,22 @@ class MovingAveragesView(APIView):
             'MA10':ma10,
             'MA8':ma8,
             'ALEN1050':{
-                'desription':'',
+                'desription':'قطع دو میانگین متحرک 10 روزه و 50 روزه با حاشیه ی 5 و 8 درصدی',
                 'signal5':'',
                 'signal8':'',
 
             },
             'ALEN520':{
-                'desription':'',
+                'desription':'قطع دو میانگین متحرک 5 روزه و 20 روزه با حاشیه ی 5 و 8 درصدی',
                 'signal5':'',
                 'signal8':'',
             }
         }
-        Serialized_data=MovingAverageSerializer(output)
-        return Response(Serialized_data.data)
+        Serialized_data=MovingAverageSerializer(data=output)
+        if Serialized_data.is_valid():
+            return Response(Serialized_data.data)
+        else:
+            return Response({'Notworking'})
 
     #def get(self, request, pk):
     #    mydata=get_object_or_404(data, pk=pk)
