@@ -87,13 +87,13 @@ DATABASES = {
 }
 
 
-#MONGODB_DATABASES = {
-#    "default": {
-#        "name": "apa",
-#        "host": "localhost",
-#        "tz_aware": True, # if you using timezones in django (USE_TZ = True)
-#    },
-#}
+MONGODB_DATABASES = {
+    "default": {
+        "name": "apa",
+        "host": "localhost",
+        "tz_aware": True, # if you using timezones in django (USE_TZ = True)
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
