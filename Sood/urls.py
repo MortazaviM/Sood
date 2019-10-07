@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 from rest_framework_mongoengine import routers
-from Signal import urls as SURL
-from Signal.views import  DataDetailView
-from Signal import views
+from Movingaverages import urls as SURL
+#from Signal.views import  DataDetailView
+#from Signal import views
 
 #router = routers.DefaultRouter()
 #router.register(r'signal', DataViewSet, r"signal")
