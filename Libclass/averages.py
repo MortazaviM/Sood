@@ -17,7 +17,7 @@ class Moving_Averages():
         for i, x in enumerate(mylist, 1):
             cumsum.append(cumsum[i-1] + x)
             if i>=self.n:
-                moving_ave = (cumsum[i] - cumsum[i-self.n])/self.n
+                moving_ave = round((cumsum[i] - cumsum[i-self.n])/self.n ,2)
                 #can do stuff with moving_ave here
                 moving_aves.append(moving_ave)
             

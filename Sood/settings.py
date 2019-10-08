@@ -42,8 +42,14 @@ INSTALLED_APPS = [
     'django_mongoengine',
     'Movingaverages',
     'Libclass',
-    #'rest_framework_mongoengine'
+    'rest_framework_mongoengine',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,6 +99,12 @@ MONGODB_DATABASES = {
         "host": "localhost",
         "tz_aware": True, # if you using timezones in django (USE_TZ = True)
     },
+}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
 
 # Password validation
