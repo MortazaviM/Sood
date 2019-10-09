@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import include, url
 from rest_framework_mongoengine import routers
 from Movingaverages import urls as SURL
+from Levels import urls as LURL
 #from Signal.views import  DataDetailView
 #from Signal import views
 
@@ -34,5 +35,6 @@ urlpatterns = [
     #url(r'^', views.DataDetailView.as_view(), name='a'),
     #path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
     
-    url(r'^api/signal/', include(SURL)),
+    url(r'^api/moving/', include(SURL)),
+    url(r'^api/levels/', include(LURL)),
 ]

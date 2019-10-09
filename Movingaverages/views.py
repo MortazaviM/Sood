@@ -35,9 +35,9 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 
-class MovingAveragesView(APIView, PageNumberPagination):
+class MovingAveragesView(APIView):
     #serializer_class = serializers.BrandSerializer
-    pagination_class = CustomPagination
+    #pagination_class = CustomPagination
     #pagination_class=settings.DEFAULT_PAGINATION_CLASS
     #pagination_class = LimitOffsetPagination
     def post(self, request, pk):
