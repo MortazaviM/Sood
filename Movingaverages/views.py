@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from Libclass.averages import Moving_Averages
 from Libclass.cross import Cross
-from rest_framework.pagination import PageNumberPagination
-from django.conf import settings
+
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 #from rest_framework.decorators import api_view
 #@api_view(['POST', 'GET'])
@@ -29,21 +29,6 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 
-class CustomPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
-
-    def get_paginated_response(self, data):
-        return Response({
-            'links': {
-                'next': self.get_next_link(),
-                'previous': self.get_previous_link()
-            },
-            'count': self.page.paginator.count,
-            'page_size': self.page_size,
-            'results': data
-        })
 
 
 
