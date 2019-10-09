@@ -77,21 +77,21 @@ class MovingAveragesView(APIView, PageNumberPagination):
 
         output={
             #'MA55':ma55,
-            'MA50':ma50,
+            'moving_average_50':ma50,
             #'MA21':ma21,
-            'MA20': ma20,
-            'MA10':ma10,
+            'moving_average_20': ma20,
+            'moving_average_10':ma10,
             #'MA8':ma8,
-            'ALEN1050':{
+            'ALEN_1050':{
                 'desription':'قطع دو میانگین متحرک 10 روزه و 50 روزه با حاشیه ی 5 و 8 روزه',
-                'signal5':False if len(signal_5_values_ma1050)==0 else True,
-                'signal8':False if len(signal_8_values_ma1050)==0 else True,
+                'signal_5':False if len(signal_5_values_ma1050)==0 else True,
+                'signal_8':False if len(signal_8_values_ma1050)==0 else True,
 
             },
-            'ALEN520':{
+            'ALEN_520':{
                 'desription':'قطع دو میانگین متحرک 5 روزه و 20 روزه با حاشیه ی 5 و 8 روزه',
-                'signal5':False if len(signal_5_values_ma520)==0 else True,
-                'signal8':False if len(signal_5_values_ma520)==0 else True,
+                'signal_5':False if len(signal_5_values_ma520)==0 else True,
+                'signal_8':False if len(signal_5_values_ma520)==0 else True,
             }
         }
         Serialized_data=MovingAverageSerializer(data=output)
