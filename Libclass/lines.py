@@ -29,7 +29,7 @@ class HorizontalLines():
         else:
             added_zeros = (len(self.data) % self.window)
     
-        zeros = [99999999999]*added_zeros
+        zeros = [999999999999]*added_zeros
         for k in self.data:
             zeros.append(k)
 
