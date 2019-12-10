@@ -52,12 +52,21 @@ class OpeningDataView(APIView):
 
 
 class SupportView(APIView):
-    def post(self, request, pk):
-        days_55=55
+    def post(self, request, pk, day):
+        days_limit=day
         close_data=data.objects.values_list('CLOSE').filter(TICKER=pk)
-        support_point=HorizontalLines(close_data, days_55).find_Support_point()
+        support_point=HorizontalLines(close_data, days_limit).find_Support_point()
         zdata={
             'support_points': support_point,
         }
         return Response(data=zdata)
 
+class ResistanceView(APIView):
+    def post(self, request, pk, day):
+        days_limit=day
+        close_data=data.objects.values_list('CLOSE').filter(TICKER=pk)
+        resistant_point=HorizontalLines(close_data, days_limit).find_Resistance_point()
+        zdata={
+            'resistant_points': support_point,
+        }
+        return Response(data=zdata)
