@@ -19,6 +19,7 @@ from django.conf.urls import include, url
 from rest_framework_mongoengine import routers
 from Movingaverages import urls as SURL
 from Levels import urls as LURL
+from Sood import views as SoodView
 #from Signal.views import  DataDetailView
 #from Signal import views
 
@@ -29,7 +30,7 @@ from Levels import urls as LURL
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', include(router.urls)),
+    url('', SoodView.index),
     #url(r'^v1/(P<id>)}/$', views.ToolDetailViewSet.as_view(), name='search'),
     #url(r'^v1/create/$', views.ToolCreateViewSet.as_view(), name='create'),
     #url(r'^', views.DataDetailView.as_view(), name='a'),
