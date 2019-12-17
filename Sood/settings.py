@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Movingaverages',
     'Libclass',
     'rest_framework_mongoengine',
+    'Sood',
 ]
 
 

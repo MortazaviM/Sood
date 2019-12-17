@@ -67,6 +67,6 @@ class ResistanceView(APIView):
         close_data=data.objects.values_list('CLOSE').filter(TICKER=pk)
         resistant_point=HorizontalLines(close_data, days_limit).find_Resistance_point()
         zdata={
-            'resistant_points': support_point,
+            'resistant_points': resistant_point,
         }
         return Response(data=zdata)
