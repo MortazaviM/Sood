@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'iran-Sans';
+    src: url("../font/iransans-Light-web.eot");
+    /* IE9 Compat Modes */
+    src: url("../font/iransans-Light-web.eot?#iefix") format('embedded-opentype'),
+    /* IE6-IE8 */
+    url("../font/iransans-Light-web.woff2") format('woff2'),
+    /* Super Modern Browsers */
+    url("../font/iransans-Light-web.woff") format('woff'),
+    /* Pretty Modern Browsers */
+    url("../font/iransans-Light-web.ttf") format('truetype');
+    /* Safari, Android, iOS */
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: iran-Sans
+}
+
+.w3-sidebar {
+    z-index: 3;
+    width: 250px;
+    top: 43px;
+    bottom: 0;
+    height: inherit;
+    text-align: right;
+}
+.highcharts-title {
+    fill: #434348;
+    font-weight: bold;
+    letter-spacing: 0.3em;
+    font-size: 3em;
+    font-family: 'iran-Sans';
+}
