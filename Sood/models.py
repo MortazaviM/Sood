@@ -11,6 +11,7 @@ class AllIndex(QuerySet):
             "$project":{
                 "CLOSE":1,
                 "TICKER":1,
+                "DTYYYYMMDD":1,
                 
                 }
         },
@@ -24,8 +25,35 @@ class AllIndex(QuerySet):
         }]
         return self.aggregate(*pipeline)
 
+    def get_range(self,name,lte,gte):
+        pipeline = [
+            {
+                "$match":{
+                    name: {"$gte":int(gte), "$lte":int(lte)}
+                }
+
+            }
+        ]
+        return self.aggregate(*pipeline)
+
+
 
 # Create your models here.
+class indexstock(Document):
+    TICKER=fields.StringField()
+    DTYYYYMMDD=fields.IntField()
+    OPEN=fields.FloatField()
+    HIGH=fields.FloatField()
+    LOW=fields.FloatField()
+    CLOSE=fields.FloatField()
+    VOL=fields.IntField()
+    VALUE=fields.FloatField()
+    TEDAD=fields.IntField()
+    LAST=fields.IntField()
+    COMPANY = fields.StringField()
+    CODE=fields.StringField()
+    meta = {'queryset_class': AllIndex}
+
 class data(Document):
     TICKER=fields.StringField()
     DTYYYYMMDD=fields.IntField()
@@ -37,5 +65,6 @@ class data(Document):
     VALUE=fields.FloatField()
     TEDAD=fields.IntField()
     LAST=fields.IntField()
+    COMPANY = fields.StringField()
+    CODE=fields.StringField()
     meta = {'queryset_class': AllIndex}
-
