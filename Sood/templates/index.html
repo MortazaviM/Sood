@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+
+{% block body %}
+
+<br /><br />
+
+<div class="w3-row w3-padding-64 w3-margin">
+    <div class="w3-container w3-col m1 l2 w3-hide-small"></div>
+    <div class=" w3-col s12 m10 l8">
+
+        {% csrf_token %}
+        <input id="search_autocomplete_input" type="text" class="w3-rightbar w3-input  w3-border-green"
+            placeholder="جستجوی نماد (برای مثال: خپارس) ..." autocomplete="off"></input>
+        <ul class="w3-ul w3-border-red w3-rightbar w3-pale-red" id='result'>
+        </ul>
+    </div>
+
+
+
+    <div class="w3-container w3-col m1 l2 w3-hide-small"></div>
+</div>
+<div class="w3-row w-pale-green w3-padding-64 w3-margin">
+    <div id="TotalIndex" style="width:100%; height:400px;"></div>
+</div>
+<div class="w3-row w3-margin">
+    <div class="w3-third w3-padding-64">
+        <div id="HamvaznIndex" style="width:100%; height:300px;"></div>
+    </div>
+    <div class="w3-third w3-padding-64">
+        <div id="FiftyIndex" style="width:100%; height:300px;"></div>
+    </div>
+    <div class="w3-third w3-padding-64">
+        <div id="FaraIndex" style="width:100%; height:300px;"></div>
+    </div>
+</div>
+<div class="w3-row w3-margin ">
+    <div class="w3-panel w3-rightbar w3-border-green w3-border-bottom">
+        <h2>
+            بیشترین افزایش حجم نسبت به میانگین ماهانه
+        </h2>
+    </div>
+    {% for vol in data.Vol  %}
+    <P> {{ vol.TICKER }} {{ vol.VOL }}</P>
+    {% endfor %}
+</div>
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded',
+        function () {
+            IndexFunction({{ data.Total }}, {{ data.Hamvazn }}, {{ data.Fifty }}, {{ data.Fara }});
+    });
+
+    //$(function () {
+    //    $("#search_autocomplete_input").autocomplete({
+    //        source: "{% url 'search-autocomplete' %}",
+    //        minLength: 2,
+    //    });
+    //});
+
+
+    $("#search_autocomplete_input").on('keyup', function () {
+        var value = $(this).val();
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+        if (value.length >= 3) {
+            $.ajax({
+                url: "{% url 'search-autocomplete' %}",
+                data: {
+                    'search': value,
+                },
+                dataType: 'json',
+                type: 'POST',
+                success: function (data) {
+                    console.log(data);
+                    //list = data;
+                    var t = "";
+                    $.each(data.names, function (k, v) {
+                        console.log(data.names[k]);
+                        t = t + "<li><a href='/stocks/" + data.names[k] + "/'>" + data.names[k] + " (" + data.company[k] + ") </a></li>";
+                    });
+                    $('#result').show();
+                    $("#result").html(t);
+
+
+                }
+
+            });
+        } else {
+            $('#result').hide();
+        }
+    });
+
+
+
+    $("#search_autocomplete_input").focusout(function () {
+        $("#result").mouseleave(function () {
+                $('#result').hide();
+        });
+    });
+
+</script>
+
+{% endblock %}
