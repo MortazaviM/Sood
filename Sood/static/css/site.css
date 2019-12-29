@@ -38,3 +38,11 @@ h6 {
     font-size: 3em;
     font-family: 'iran-Sans';
 }
+.highcharts-legend text {
+    text-shadow: 0 0 1px black, 0 0 1px black;
+    font-family: 'iran-Sans';
+}
+.highcharts-tooltip text {
+    font-family: 'iran-Sans';
+}
+

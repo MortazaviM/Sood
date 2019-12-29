@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+
+{% block body %}
+<br>
+
+<div class="w3-row" >
+    <h2 class="w3-panel"> نام نماد: {{data.title}} </h2>
+
+</div>
+
+<div class="w3-row w3-padding-64 w3-margin">
+    <div id="StockChart" style="width:100%; height:600px;"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded',
+        function () {
+            StockFunction({{data.values}},{{data.ma5}},{{data.ma10}},{{data.ma20}},{{data.ma50}},{{data.dates}});
+    });
+
+
+</script>
+
+{% endblock %}

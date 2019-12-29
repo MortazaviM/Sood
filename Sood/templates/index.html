@@ -14,8 +14,8 @@
         {% csrf_token %}
         <input id="search_autocomplete_input" type="text" class="w3-rightbar w3-input  w3-border-green"
             placeholder="جستجوی نماد (برای مثال: خپارس) ..." autocomplete="off"></input>
-    <ul class="w3-ul w3-border-red w3-rightbar w3-pale-red" id='result'>
-    </ul>
+        <ul class="w3-ul w3-border-red w3-rightbar w3-pale-red" id='result'>
+        </ul>
     </div>
 
 
@@ -83,7 +83,7 @@
                     var t = "";
                     $.each(data.names, function (k, v) {
                         console.log(data.names[k]);
-                        t = t + "<li><a href='#'>" + data.names[k] +" ("+ data.company[k] + ") </a></li>";
+                        t = t + "<li><a href='/stocks/" + data.names[k] + "/'>" + data.names[k] + " (" + data.company[k] + ") </a></li>";
                     });
                     $('#result').show();
                     $("#result").html(t);
@@ -92,13 +92,17 @@
                 }
 
             });
-        }else{
+        } else {
             $('#result').hide();
         }
     });
-    
-    $("#search_autocomplete_input").focusout( function () {
-        $('#result').hide();
+
+
+
+    $("#search_autocomplete_input").focusout(function () {
+        $("#result").mouseleave(function () {
+                $('#result').hide();
+        });
     });
 
 </script>

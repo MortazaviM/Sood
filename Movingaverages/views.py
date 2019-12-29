@@ -28,9 +28,29 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
             #return Response(d)
 
 
+def calculateMA(pk,days_kol=90):
+    mydata=data.objects.values_list('CLOSE').filter(TICKER=pk)
+    #ma55=Moving_Averages(mydata,55).moving_average()[-days_kol:]
+    ma50=Moving_Averages(mydata,50).moving_average()[-days_kol:]
+    #ma21=Moving_Averages(mydata,21).moving_average()[-days_kol:]
+    ma20=Moving_Averages(mydata,20).moving_average()[-days_kol:]
+    ma10=Moving_Averages(mydata,10).moving_average()[-days_kol:]
+    #ma8=Moving_Averages(mydata,8).moving_average()[-days_kol:]
+    ma5=Moving_Averages(mydata,5).moving_average()[-days_kol:]
 
 
+    return ma50,ma20,ma10,ma5
 
+def calculateSignals(pk):
+    days_5=5
+    days_8=8
+
+    ma50,ma20,ma10,ma5 = calculateMA(pk,90)
+    signal_5_values_ma1050=Cross(ma10[-days_5:], ma50[-days_5:]).up_points()
+    signal_8_values_ma1050=Cross(ma10[-days_8:], ma50[-days_8:]).up_points()
+    signal_5_values_ma520=Cross(ma5[-days_5:], ma20[-days_5:]).up_points()
+    signal_8_values_ma520=Cross(ma5[-days_8:], ma20[-days_8:]).up_points()
+    return signal_5_values_ma1050,signal_8_values_ma1050,signal_5_values_ma520,signal_8_values_ma520
 
 
 
@@ -41,25 +61,9 @@ class MovingAveragesView(APIView):
     #pagination_class=settings.DEFAULT_PAGINATION_CLASS
     #pagination_class = LimitOffsetPagination
     def post(self, request, pk):
-        days_5=5
-        days_8=8
-        days_kol=90
-        mydata=data.objects.values_list('CLOSE').filter(TICKER=pk)
-        #ma55=Moving_Averages(mydata,55).moving_average()[-days_kol:]
-        ma50=Moving_Averages(mydata,50).moving_average()[-days_kol:]
-        #ma21=Moving_Averages(mydata,21).moving_average()[-days_kol:]
-        ma20=Moving_Averages(mydata,20).moving_average()[-days_kol:]
-        ma10=Moving_Averages(mydata,10).moving_average()[-days_kol:]
-        #ma8=Moving_Averages(mydata,8).moving_average()[-days_kol:]
-        ma5=Moving_Averages(mydata,5).moving_average()[-days_kol:]
-
-        signal_5_values_ma1050=Cross(ma10[-days_5:], ma50[-days_5:]).up_points()
-        signal_8_values_ma1050=Cross(ma10[-days_8:], ma50[-days_8:]).up_points()
-
-        signal_5_values_ma520=Cross(ma5[-days_5:], ma20[-days_5:]).up_points()
-        signal_8_values_ma520=Cross(ma5[-days_8:], ma20[-days_8:]).up_points()
-
-
+        
+        ma50,ma20,ma10,ma5=calculateMA(pk,90)
+        signal_5_values_ma1050,signal_8_values_ma1050,signal_5_values_ma520,signal_8_values_ma520=calculateSignals(pk)
         output={
             #'MA55':ma55,
             'moving_average_50':ma50,

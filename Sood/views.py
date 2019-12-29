@@ -4,7 +4,9 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from Movingaverages.views import calculateMA
+import pandas as pd
+import json
 def index(request):
     AllData={}
     To, Ha, Fi, Fa=[],[],[],[]
@@ -16,7 +18,7 @@ def index(request):
     index_fifty = indexstock.objects.order_by("-DTYYYYMMDD").get_data("شاخص_قيمت_50_شركت6")
     index_fara = indexstock.objects.order_by("-DTYYYYMMDD").get_data("شاخص_كل_فرابورس6")
     
-
+#_CommandCursor__data
     for total,hamvazn,fifty,fara in zip(index_total,index_hamvazn,index_fifty,index_fara): 
         Date.append(total["DTYYYYMMDD"])
         To.insert(0,total["CLOSE"])
@@ -42,6 +44,32 @@ def index(request):
     return render(request, 'index.html',{'data':AllData})
 
 
+def stock(request, pk):
+    t1=datetime.datetime.now()
+    if request.method == "GET":
+        if ('pk' != ""):
+            values=data.objects.values_list('CLOSE','DTYYYYMMDD').order_by('-DTYYYYMMDD').filter(TICKER=pk).limit(264)
+            res = list(map(list, values)) 
+            CLOSE, DATE = map(list, zip(*res)) 
+            if values:
+                ma50,ma20,ma10,ma5=calculateMA(pk,264)
+                result={
+                    'title':str(pk),
+                    'ma50':ma50,
+                    'ma20':ma20,
+                    'ma10':ma10,
+                    'ma5':ma5,
+                    'values':list(CLOSE)[::-1], #list(values)[::-1],
+                    'dates':list(DATE)[::-1],
+                }
+                t2=datetime.datetime.now()
+                print(t2-t1)
+                return render(request,'stock.html',{'data':result})
+
+
+
+
+
 class SearchView(APIView):
     def get(self,request):
         pass
@@ -60,7 +88,6 @@ class SearchView(APIView):
             }
         q = request.data.get('search', '')
         q=q.replace('ی',mapping['ی']).replace('ک',mapping['ک'])
-        names=[]
         if len(q)>2:
             names=data.objects.values_list('TICKER').filter(TICKER__icontains=q).distinct('TICKER')
             company =data.objects.values_list('COMPANY').filter(TICKER__icontains=q).distinct('COMPANY')
