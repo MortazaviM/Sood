@@ -11,6 +11,9 @@ class data(Document):
     LOW=fields.FloatField()
     CLOSE=fields.FloatField()
     VOL=fields.IntField()
-    Value=fields.FloatField()
+    VALUE=fields.FloatField()
     TEDAD=fields.IntField()
+    LAST=fields.IntField()
+    COMPANY = fields.StringField()
+    CODE=fields.StringField()
 
