@@ -83,7 +83,7 @@
                     var t = "";
                     $.each(data.names, function (k, v) {
                         console.log(data.names[k]);
-                        t = t + "<li><a href='/stocks/" + data.names[k] + "/'>" + data.names[k] + " (" + data.company[k] + ") </a></li>";
+                        t = t + "<li><a href='/stocks/" + data.names[k] + "/' style='text-decoration: none;'>" + data.names[k] + " (نام شرکت : " + data.company[k] + ") </a></li>";
                     });
                     $('#result').show();
                     $("#result").html(t);

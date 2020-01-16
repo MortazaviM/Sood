@@ -17,7 +17,7 @@ class AllIndex(QuerySet):
         },
         {
             "$match":{
-                "TICKER":pk
+                "TICKER": pk
             }
         },
         {
