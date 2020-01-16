@@ -29,14 +29,27 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def calculateMA(pk,days_kol=90):
-    mydata=data.objects.values_list('CLOSE').filter(TICKER=pk)
+    #mydata=data.objects.values_list('CLOSE').filter(TICKER=pk)
+    alldata=data.objects.order_by("-DTYYYYMMDD").get_by_mil(pk)
+    temp=list(alldata)
+    mydata=[]
+    mydate=[]
+    for f in temp:
+        mydata.insert(0,f['y'])
+        mydate.insert(0,f['x'])
+
+    if(days_kol>=len(mydata)):
+        days_kol=len(mydata)
+
+
+    #mydata=
     #ma55=Moving_Averages(mydata,55).moving_average()[-days_kol:]
-    ma50=Moving_Averages(mydata,50).moving_average()[-days_kol:]
+    ma50=Moving_Averages(mydata,mydate,50).moving_average()[-days_kol:]
     #ma21=Moving_Averages(mydata,21).moving_average()[-days_kol:]
-    ma20=Moving_Averages(mydata,20).moving_average()[-days_kol:]
-    ma10=Moving_Averages(mydata,10).moving_average()[-days_kol:]
+    ma20=Moving_Averages(mydata,mydate,20).moving_average()[-days_kol:]
+    ma10=Moving_Averages(mydata,mydate,10).moving_average()[-days_kol:]
     #ma8=Moving_Averages(mydata,8).moving_average()[-days_kol:]
-    ma5=Moving_Averages(mydata,5).moving_average()[-days_kol:]
+    ma5=Moving_Averages(mydata,mydate,5).moving_average()[-days_kol:]
 
 
     return ma50,ma20,ma10,ma5

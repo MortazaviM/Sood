@@ -125,7 +125,7 @@ function IndexFunction(TotalIndexData, HamvaznIndexData, FiftyIndexData, FaraInd
 
 
 
-function StockFunction(myData, ma5, ma10, ma20, ma50,myDate) {
+function StockFunction(myData, ma5, ma10, ma20, ma50, myDate) {
     var myChart = Highcharts.chart('StockChart', {
         chart: {
             type: 'line',
@@ -149,36 +149,37 @@ function StockFunction(myData, ma5, ma10, ma20, ma50,myDate) {
         },
         xAxis: {
 
-            categories:myDate,
+            categories: myDate,
             crosshair: true,
         },
-        series: [            
+        series: [
             {
-            type: 'line',
-            data: myData,
-            name: 'قیمت پایانی سهم',
-            color: '#008421',
-            fillColor: {
-                pattern: {
-                    color: '#11d'
+                type: 'line',
+                data: myData,
+                name: 'قیمت پایانی سهم',
+                color: '#008421',
+                fillColor: {
+                    pattern: {
+                        color: '#11d'
+                    }
+                },
+                marker: {
+                    enabled: true
                 }
-            },
-            marker: {
-                enabled: true
-            }
 
-        }, {
-            data: ma5,
-            name: 'میانگین متحرک 5 روزه',
-        }, {
-            data: ma10,
-            name: 'میانگین متحرک 10 روزه',
-        }, {
-            data: ma20,
-            name: 'میانگین متحرک 20 روزه',
-        }, {
-            data: ma50,
-            name: 'میانگین متحرک 50 روزه',
-        }]
+            }, {
+                data: ma5,
+                name: 'میانگین متحرک 5 روزه',
+            }, {
+                data: ma10,
+                name: 'میانگین متحرک 10 روزه',
+            }, {
+                data: ma20,
+                name: 'میانگین متحرک 20 روزه',
+            }, {
+                data: ma50,
+                name: 'میانگین متحرک 50 روزه',
+            }]
     });
 };
+

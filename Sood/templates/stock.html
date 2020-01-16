@@ -1,27 +1,140 @@
 {% extends 'layout.html' %}
 {% load static %}
-
-
-
 {% block body %}
+
+
 <br>
 
-<div class="w3-row" >
-    <h2 class="w3-panel"> نام نماد: {{data.title}} </h2>
+<div class="w3-row">
+    <h2 class="w3-panel"> نام نماد: {{ data.title }}</h2>
 
 </div>
-
 <div class="w3-row w3-padding-64 w3-margin">
-    <div id="StockChart" style="width:100%; height:600px;"></div>
+    <div id="Stock2Chart" style="width:100%; height:800px;"></div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded',
-        function () {
-            StockFunction({{data.values}},{{data.ma5}},{{data.ma10}},{{data.ma20}},{{data.ma50}},{{data.dates}});
+
+
+<script type="text/javascript">
+
+
+    $(function () {
+        $('#Stock2Chart').highcharts({
+
+
+            chart: {
+                type: 'spline'
+            },
+            xAxis: {
+                type: 'datetime',
+            },
+            title: {
+                text: 'قیمت سهام {{ data.title | safe }}'
+            },
+            rangeSelector: {
+                enabled: true,
+                selected: 1,
+            },
+            series: [{
+                type: 'ohlc',
+                name: '{{ data.title | safe }}',
+                data: {{ data.data | safe }}.sort(function (a, b) {
+                    return a.x - b.x;
+                }),
+            tooltip: {
+            pointFormatter: function () {
+                var point = this;
+                var s = '';
+                s += '<span style="color:green">\u25CF</span> ' + point.series.name + ': <b>' + (point.y) + '</b><br/>';
+                s += '<span style="color:green"></span> open: <b>' + (point.open) + '</b><br/>';
+                s += '<span style="color:green"></span> high: <b>' + (point.high) + '</b><br/>';
+                s += '<span style="color:green"></span> low: <b>' + (point.low) + '</b><br/>';
+                s += '<span style="color:green"></span> close: <b>' + (point.close) + '</b><br/>';
+                return s;
+            }
+        }
+            },
+        {
+
+            type: 'line',
+            name: 'میانگین 5 روزه',
+            data: {{ data.ma5 | safe }}.sort(function (a, b) {
+                return a.x - b.x;
+            }),
+
+        tooltip: {
+        pointFormatter: function () {
+            var point = this;
+            var s = '';
+            s += '<span style="color:' + point.color + '">\u25CF</span> ' + point.series.name + ': <b>' + (point.y) + '</b><br/>';
+            return s;
+        }
+    }
+
+            }, {
+
+            type: 'line',
+            name: 'میانگین 10 روزه',
+            data: {{ data.ma10 | safe }}.sort(function (a, b) {
+                return a.x - b.x;
+            }),
+
+        tooltip: {
+        pointFormatter: function () {
+            var point = this;
+            var s = '';
+            s += '<span style="color:' + point.color + '">\u25CF</span> ' + point.series.name + ': <b>' + (point.y) + '</b><br/>';
+            return s;
+        }
+    }
+
+    },
+        {
+
+            type: 'line',
+            name: 'میانگین 20 روزه',
+            data: {{ data.ma20 | safe }}.sort(function (a, b) {
+                return a.x - b.x;
+            }),
+
+        tooltip: {
+        pointFormatter: function () {
+            var point = this;
+            var s = '';
+            s += '<span style="color:' + point.color + '">\u25CF</span> ' + point.series.name + ': <b>' + (point.y) + '</b><br/>';
+            return s;
+        }
+    }
+
+    },
+        {
+
+            type: 'line',
+            name: 'میانگین 50 روزه',
+            data: {{ data.ma50 | safe }}.sort(function (a, b) {
+                return a.x - b.x;
+            }),
+
+        tooltip: {
+        pointFormatter: function () {
+            var point = this;
+            var s = '';
+            s += '<span style="color:' + point.color + '">\u25CF</span> ' + point.series.name + ': <b>' + (point.y) + '</b><br/>';
+            return s;
+        }
+    }
+
+    },
+        
+
+        
+        
+        ]
+        });
     });
 
 
 </script>
+
 
 {% endblock %}

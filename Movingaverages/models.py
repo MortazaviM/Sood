@@ -1,6 +1,41 @@
-from django.db import models
-from django.contrib.postgres.fields import JSONField
-from mongoengine import Document, EmbeddedDocument, fields
+from mongoengine import Document, EmbeddedDocument, fields,QuerySet
+import datetime
+
+
+
+
+
+
+class AllIndex(QuerySet):
+    def get_by_mil(self, pk):
+        pipeline = [
+            {
+                "$match":{
+                    "TICKER":pk,
+                    }
+                    },
+                    {
+                "$project":{
+                "x":{
+                    "$subtract" : [{
+                        "$convert":{
+                            "input":{
+                                "$dateFromString":{
+                                    "dateString":{
+                                        "$toString":"$DTYYYYMMDD"
+                                        },
+                                        "format": "%Y%m%d"
+                                        }},
+                                        "to":"date"
+                                        }}, datetime.datetime(1970,1,1)
+                                        ]},
+                                        "y":"$CLOSE",
+                                        "_id":0,
+                                        }
+            },{
+                '$limit': 264,
+                }]
+        return self.aggregate(*pipeline)
 
 # Create your models here.
 class data(Document):
@@ -16,4 +51,5 @@ class data(Document):
     LAST=fields.IntField()
     COMPANY = fields.StringField()
     CODE=fields.StringField()
+    meta = {'queryset_class': AllIndex}
 

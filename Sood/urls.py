@@ -32,6 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/search/$', SoodView.SearchView.as_view(), name="search-autocomplete"),
     url(r'^stocks/(?P<pk>\w+)/$', SoodView.stock, name="stocks"),
+    url(r'^api/stocks/$', SoodView.StockData.as_view(), name="stocksdata"),
     #url(r'^v1/(P<id>)}/$', views.ToolDetailViewSet.as_view(), name='search'),
     #url(r'^v1/create/$', views.ToolCreateViewSet.as_view(), name='create'),
     #url(r'^', views.DataDetailView.as_view(), name='a'),

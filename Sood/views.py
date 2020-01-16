@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from Movingaverages.views import calculateMA
 import pandas as pd
 import json
+from operator import itemgetter
+
 def index(request):
     AllData={}
     To, Ha, Fi, Fa=[],[],[],[]
@@ -48,23 +50,27 @@ def stock(request, pk):
     t1=datetime.datetime.now()
     if request.method == "GET":
         if ('pk' != ""):
-            values=data.objects.values_list('CLOSE','DTYYYYMMDD').order_by('-DTYYYYMMDD').filter(TICKER=pk).limit(264)
-            res = list(map(list, values)) 
-            CLOSE, DATE = map(list, zip(*res)) 
-            if values:
-                ma50,ma20,ma10,ma5=calculateMA(pk,264)
-                result={
-                    'title':str(pk),
-                    'ma50':ma50,
-                    'ma20':ma20,
-                    'ma10':ma10,
-                    'ma5':ma5,
-                    'values':list(CLOSE)[::-1], #list(values)[::-1],
-                    'dates':list(DATE)[::-1],
-                }
-                t2=datetime.datetime.now()
-                print(t2-t1)
-                return render(request,'stock.html',{'data':result})
+            result=stockDataGenerator(pk)
+            return render(request,'stock.html',{'data':result})
+
+
+
+def stockDataGenerator(pk):
+    values=data.objects.order_by("-DTYYYYMMDD").get_by_mil(pk)
+    dd=list(values)
+    #getter = itemgetter('Date','OPEN','HIGH', 'LOW','CLOSE')
+    #zz=[list(getter(item)) for item in dd]
+    if values:
+        ma50,ma20,ma10,ma5=calculateMA(pk,264)
+        result={
+            'title':str(pk),
+            'ma50':ma50,
+            'ma20':ma20,
+            'ma10':ma10,
+            'ma5':ma5,
+            'data':dd,
+            }
+        return result
 
 
 
@@ -96,4 +102,17 @@ class SearchView(APIView):
                 'names':names,
                 'company':company
             }
+        return Response(data=result)
+
+
+
+class StockData(APIView):
+    def get(self,request):
+        q = request.GET.get('name', '')
+        result=stockDataGenerator(q)
+        return Response(data=result)
+
+    def post(self, request):
+        q = request.POST.get('name', '')
+        result=stockDataGenerator(q)
         return Response(data=result)

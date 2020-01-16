@@ -36,11 +36,18 @@ class AllIndex(QuerySet):
         ]
         return self.aggregate(*pipeline)
 
-    def get_by_mil(self):
+    def get_by_mil(self, pk):
         pipeline = [
             {
+                "$match":{
+                    "TICKER":pk,
+                    }
+                    },{
+            "$limit":264
+        },
+                    {
                 "$project":{
-                "Date":{
+                "x":{
                     "$subtract" : [{
                         "$convert":{
                             "input":{
@@ -53,10 +60,12 @@ class AllIndex(QuerySet):
                                         "to":"date"
                                         }}, datetime.datetime(1970,1,1)
                                         ]},
-                                        "OPEN":1,
-                                        "HIGH":1,
-                                        "LOW":1,
-                                        "CLOSE":1,
+                                        "y":"$OPEN",
+                                        "high":"$HIGH",
+                                        "low":"$LOW",
+                                        "close":"$CLOSE",
+                                        "open":"$OPEN",
+                                        "_id":0,
                                         }
             }]
         return self.aggregate(*pipeline)
