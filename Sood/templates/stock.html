@@ -13,10 +13,15 @@
     <div id="Stock2Chart" style="width:100%; height:800px;"></div>
 
     <br />
-<h3 class="w3-panel w3-rightbar w3-margin">خطوط حمایت و مقاومت سهم</h3>
-<p>در نمودار زیر خطوط <b style="color: red;">قرمز</b> نشان دهنده خطوط مقاومت و خطوط <b style="color: green;">قرمز</b> نشان دهنده ی خطوط حمایت در بازه ی <b>55</b> روزه می باشد.</p>
-<br />    
-<div id="Stock3Chart" style="width:100%; height:800px;"></div>
+    <h3 class="w3-panel w3-rightbar w3-margin">خطوط حمایت و مقاومت سهم</h3>
+    <p>در نمودار زیر خطوط <b style="color: red;">قرمز</b> نشان دهنده خطوط مقاومت و خطوط <b
+            style="color: green;">قرمز</b> نشان دهنده ی خطوط حمایت در بازه ی <b>55</b> روزه می باشد.</p>
+    <br />
+    <div id="Stock3Chart" style="width:100%; height:800px;"></div>
+    <br />
+    <h3 class="w3-panel w3-rightbar w3-margin">سهم در یک نگاه</h3>
+    <br />
+    {{ data.one_view| safe }}
 </div>
 
 
@@ -26,6 +31,11 @@
 
     $(function () {
         $('#Stock2Chart').highcharts({
+            exporting: {
+                sourceWidth: 1920,
+                sourceHeight: 1080,
+                scale: 1
+            },
 
 
             chart: {
@@ -149,6 +159,11 @@
 
     $(function () {
         $('#Stock3Chart').highcharts({
+            exporting: {
+                sourceWidth: 1920,
+                sourceHeight: 1080,
+                scale: 1
+            },
             chart: {
                 type: 'spline'
             },
@@ -163,16 +178,16 @@
                 selected: 1,
             },
             yAxis: {
-                plotLines: {{data.level| safe}},
+                plotLines: {{ data.level | safe }},
                 
         },
-            series: [{
-                type: 'candlestick',
-                name: '{{ data.title | safe }}',
-                data: {{ data.data | safe }}.sort(function (a, b) {
-                    return a.x - b.x;
-                }),
-            tooltip: {
+        series: [{
+            type: 'candlestick',
+            name: '{{ data.title | safe }}',
+            data: {{ data.data | safe }}.sort(function (a, b) {
+                return a.x - b.x;
+            }),
+        tooltip: {
             pointFormatter: function () {
                 var point = this;
                 var s = '';
@@ -187,7 +202,7 @@
         }
             },
 
-        ]
+    ]
 
         });
     });

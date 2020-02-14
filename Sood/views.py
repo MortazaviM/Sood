@@ -9,6 +9,7 @@ import pandas as pd
 import json
 from operator import itemgetter
 from Libclass.lines import HorizontalLines
+import pandas as pd
 
 def index(request):
     AllData={}
@@ -50,7 +51,7 @@ def index(request):
 def stock(request, pk):
     t1=datetime.datetime.now()
     if request.method == "GET":
-        if ('pk' != ""):
+        if (pk != ""):
             result=stockDataGenerator(pk)
             return render(request,'stock.html',{'data':result})
 
@@ -63,6 +64,9 @@ def stockDataGenerator(pk):
     close_data=[item['close'] for item in dd]
     support_point,min_list_dicts=HorizontalLines(close_data, days_limit).find_Support_point()
     resistance_point,max_list_dicts=HorizontalLines(close_data, days_limit).find_Resistance_point()
+    one_view_temp=pd.DataFrame.from_dict(dd)
+    one_view=one_view_temp.describe().drop(['x','y'],1)
+    one_view_html=one_view.style.format('<label name="df">{}</label>').render()
     #getter = itemgetter('Date','OPEN','HIGH', 'LOW','CLOSE')
     #zz=[list(getter(item)) for item in dd]
     if values:
@@ -75,6 +79,7 @@ def stockDataGenerator(pk):
             'ma5':ma5,
             'data':dd,
             'level':min_list_dicts+max_list_dicts,
+            'one_view':one_view_html,
             }
         return result
 
