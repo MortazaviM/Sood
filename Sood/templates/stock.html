@@ -6,11 +6,17 @@
 <br>
 
 <div class="w3-row">
-    <h2 class="w3-panel"> نام نماد: {{ data.title }}</h2>
+    <h2 class="w3-panel w3-rightbar w3-margin"> نام نماد: {{ data.title }}</h2>
 
 </div>
 <div class="w3-row w3-padding-64 w3-margin">
     <div id="Stock2Chart" style="width:100%; height:800px;"></div>
+
+    <br />
+<h3 class="w3-panel w3-rightbar w3-margin">خطوط حمایت و مقاومت سهم</h3>
+<p>در نمودار زیر خطوط <b style="color: red;">قرمز</b> نشان دهنده خطوط مقاومت و خطوط <b style="color: green;">قرمز</b> نشان دهنده ی خطوط حمایت در بازه ی <b>55</b> روزه می باشد.</p>
+<br />    
+<div id="Stock3Chart" style="width:100%; height:800px;"></div>
 </div>
 
 
@@ -36,7 +42,7 @@
                 selected: 1,
             },
             series: [{
-                type: 'ohlc',
+                type: 'candlestick',
                 name: '{{ data.title | safe }}',
                 data: {{ data.data | safe }}.sort(function (a, b) {
                     return a.x - b.x;
@@ -123,13 +129,66 @@
             return s;
         }
     }
-
     },
-        
-
-        
-        
         ]
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $(function () {
+        $('#Stock3Chart').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            xAxis: {
+                type: 'datetime',
+            },
+            title: {
+                text: 'حمایت و مقاومت سهام {{ data.title | safe }}'
+            },
+            rangeSelector: {
+                enabled: true,
+                selected: 1,
+            },
+            yAxis: {
+                plotLines: {{data.level| safe}},
+                
+        },
+            series: [{
+                type: 'candlestick',
+                name: '{{ data.title | safe }}',
+                data: {{ data.data | safe }}.sort(function (a, b) {
+                    return a.x - b.x;
+                }),
+            tooltip: {
+            pointFormatter: function () {
+                var point = this;
+                var s = '';
+                //s += '<span style="color:green">\u25CF</span><b>'+ point.series.name +'</b> : <b>' + (point.y) + '</b><br/>';
+                s += '<span style="color:green">\u25CF</span><b> Prices </b><br/>';
+                s += '<span style="color:green"></span> open: <b>' + (point.open) + '</b><br/>';
+                s += '<span style="color:green"></span> high: <b>' + (point.high) + '</b><br/>';
+                s += '<span style="color:green"></span> low: <b>' + (point.low) + '</b><br/>';
+                s += '<span style="color:green"></span> close: <b>' + (point.close) + '</b><br/>';
+                return s;
+            }
+        }
+            },
+
+        ]
+
         });
     });
 

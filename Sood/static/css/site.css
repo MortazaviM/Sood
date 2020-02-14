@@ -34,9 +34,9 @@ h6 {
 .highcharts-title {
     fill: #434348;
     font-weight: bold;
-    letter-spacing: 0.3em;
     font-size: 3em;
     font-family: 'iran-Sans';
+
 }
 .highcharts-legend text {
     text-shadow: 0 0 1px black, 0 0 1px black;
@@ -44,5 +44,6 @@ h6 {
 }
 .highcharts-tooltip text {
     font-family: 'iran-Sans';
+    text-align: right;
 }
 

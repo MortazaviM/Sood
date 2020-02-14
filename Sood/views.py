@@ -8,6 +8,7 @@ from Movingaverages.views import calculateMA
 import pandas as pd
 import json
 from operator import itemgetter
+from Libclass.lines import HorizontalLines
 
 def index(request):
     AllData={}
@@ -56,8 +57,12 @@ def stock(request, pk):
 
 
 def stockDataGenerator(pk):
+    days_limit=55
     values=data.objects.order_by("-DTYYYYMMDD").get_by_mil(pk)
     dd=list(values)
+    close_data=[item['close'] for item in dd]
+    support_point,min_list_dicts=HorizontalLines(close_data, days_limit).find_Support_point()
+    resistance_point,max_list_dicts=HorizontalLines(close_data, days_limit).find_Resistance_point()
     #getter = itemgetter('Date','OPEN','HIGH', 'LOW','CLOSE')
     #zz=[list(getter(item)) for item in dd]
     if values:
@@ -69,6 +74,7 @@ def stockDataGenerator(pk):
             'ma10':ma10,
             'ma5':ma5,
             'data':dd,
+            'level':min_list_dicts+max_list_dicts,
             }
         return result
 
